@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Solo Sparks - Login</title>
+  <style>
+    body { font-family: Arial; max-width: 400px; margin: auto; padding-top: 50px; }
+    input, button { display: block; margin: 10px 0; padding: 8px; width: 100%; }
+    #dashboard { margin-top: 20px; padding: 15px; border: 1px solid #ccc; display: none; }
+  </style>
+</head>
+<body>
+  <h2>Login Page</h2>
+
+  <label for="username">Username:</label>
+  <input type="text" id="username" required />
+
+  <label for="password">Password:</label>
+  <input type="password" id="password" required />
+
+  <button onclick="login()">Login</button>
+
+  <div id="dashboard"></div>
+
+  <script>
+    const users = [
+      { username: 'admin', password: 'adminpass', role: 'admin' },
+      { username: 'user1', password: 'userpass', role: 'user' }
+    ];
+
+    function login() {
+      const username = document.getElementById('username').value.trim();
+      const password = document.getElementById('password').value.trim();
+      const dashboard = document.getElementById('dashboard');
+
+      const user = users.find(u => u.username === username && u.password === password);
+
+      if (user) {
+        dashboard.style.display = 'block';
+        dashboard.innerHTML = `
+          <h3>Welcome, ${user.username}!</h3>
+          <p>You are logged in as: <strong>${user.role}</strong></p>
+          ${user.role === 'admin' ? '<p>Access to admin panel granted.</p>' : ''}
+          ${user.role === 'user' ? '<p>Welcome to the user dashboard.</p>' : ''}
+          <button onclick="logout()">Logout</button>
+        `;
+      } else {
+        alert("Invalid credentials.");
+        dashboard.style.display = 'none';
+      }
+    }
+
+    function logout() {
+      document.getElementById('username').value = '';
+      document.getElementById('password').value = '';
+      document.getElementById('dashboard').style.display = 'none';
+    }
+  </script>
+</body>
+</html>
